@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quản lý Sản phẩm</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f0f0;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .header {
+      background: white;
+      padding: 20px;
+      border: 1px solid #ddd;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    h1 {
+      color: #000;
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .logout-btn {
+      background: #000;
+      color: white;
+      padding: 10px 20px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .logout-btn:hover {
+      background: #333;
+    }
+
+    .add-form {
+      background: white;
+      padding: 20px;
+      border: 1px solid #ddd;
+      margin-bottom: 20px;
+    }
+
+    .form-row {
+      display: flex;
+      gap: 10px;
+      align-items: end;
+    }
+
+    .form-group {
+      flex: 1;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      color: #000;
+      font-weight: bold;
+    }
+
+    input[type="text"],
+    input[type="number"] {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      background: #000;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    button:hover {
+      background: #333;
+    }
+
+    table {
+      width: 100%;
+      background: white;
+      border: 1px solid #ddd;
+      border-collapse: collapse;
+    }
+
+    th,
+    td {
+      padding: 15px;
+      text-align: left;
+      border: 1px solid #ddd;
+    }
+
+    th {
+      background: #000;
+      color: white;
+    }
+
+    tr:nth-child(even) {
+      background: #f9f9f9;
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .edit-btn {
+      background: #666;
+      color: white;
+      padding: 5px 15px;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .edit-btn:hover {
+      background: #333;
+    }
+
+    .delete-btn {
+      background: #000;
+      color: white;
+      padding: 5px 15px;
+      border: none;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .delete-btn:hover {
+      background: #333;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Quản lý Sản phẩm</h1>
+      <div class="user-info">
+        <span>Xin chào, <strong>
+            <%= username %>
+          </strong></span>
+        <a href="/logout" class="logout-btn">Đăng xuất</a>
+      </div>
+    </div>
+
+    <div class="add-form">
+      <h2 style="margin-bottom: 15px;">Thêm Sản phẩm mới</h2>
+      <form method="POST" action="/products/add">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Tên sản phẩm</label>
+            <input type="text" name="name" required>
+          </div>
+          <div class="form-group">
+            <label>Giá</label>
+            <input type="number" name="price" required>
+          </div>
+          <div class="form-group">
+            <label>Số lượng</label>
+            <input type="number" name="quantity" required>
+          </div>
+          <button type="submit">Thêm</button>
+        </div>
+      </form>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Tên sản phẩm</th>
+          <th>Giá</th>
+          <th>Số lượng</th>
+          <th>Thao tác</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% products.forEach(product=> { %>
+          <tr>
+            <td>
+              <%= product.id %>
+            </td>
+            <td>
+              <%= product.name %>
+            </td>
+            <td>
+              <%= product.price.toLocaleString() %> VNĐ
+            </td>
+            <td>
+              <%= product.quantity %>
+            </td>
+            <td>
+              <div class="actions">
+                <a href="/products/edit/<%= product.id %>" class="edit-btn">Sửa</a>
+                <form method="POST" action="/products/delete/<%= product.id %>" style="display:inline;">
+                  <button type="submit" class="delete-btn"
+                    onclick="return confirm('Bạn chắc chắn muốn xóa?')">Xóa</button>
+                </form>
+              </div>
+            </td>
+          </tr>
+          <% }); %>
+      </tbody>
+    </table>
+  </div>
+</body>
+
+</html>
