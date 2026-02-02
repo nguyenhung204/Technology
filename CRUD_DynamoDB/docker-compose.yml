@@ -1,0 +1,45 @@
+services:
+  dynamodb-local:
+    image: amazon/dynamodb-local:latest
+    container_name: dynamodb-local
+    command: ["-jar", "DynamoDBLocal.jar", "-sharedDb", "-dbPath", "/home/dynamodblocal/data"]
+    user: root
+    ports:
+      - "8000:8000"
+    volumes:
+      - dynamodb_data:/home/dynamodblocal/data
+    restart: unless-stopped
+
+  dynamodb-admin:
+    image: aaronshaf/dynamodb-admin:latest
+    container_name: dynamodb-admin
+    environment:
+      - DYNAMO_ENDPOINT=http://dynamodb-local:8000
+      - AWS_REGION=us-east-1
+      - AWS_ACCESS_KEY_ID=dummy
+      - AWS_SECRET_ACCESS_KEY=dummy
+      - HOST=0.0.0.0
+      - PORT=8001
+    ports:
+      - "8009:8001"
+    depends_on:
+      - dynamodb-local
+    restart: unless-stopped
+
+  app:
+    build: .
+    container_name: nodejs-app
+    env_file:
+      - .env
+    ports:
+      - "3000:3000"
+    depends_on:
+      - dynamodb-local
+    volumes:
+      - .:/app
+      - /app/node_modules
+    restart: unless-stopped
+    command: sh -c "npm install && npm run init-db && npm start"
+
+volumes:
+  dynamodb_data:
