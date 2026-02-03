@@ -1,0 +1,100 @@
+<%- include('../partials/header', { title: 'Thêm sản phẩm', activeMenu: 'products' }) %>
+
+<style>
+    .form-card {
+        background: white;
+        border: 1px solid #000;
+        padding: 30px;
+        max-width: 700px;
+        margin: 0 auto;
+    }
+    .form-group {
+        margin-bottom: 20px;
+    }
+    label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: #333;
+    }
+    input, textarea, select {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #000;
+        font-size: 14px;
+        font-family: inherit;
+    }
+    input:focus, textarea:focus, select:focus {
+        outline: none;
+        border-color: #000;
+    }
+    .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+    .form-actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 30px;
+    }
+    .error {
+        background: white;
+        color: #000;
+        padding: 12px;
+        margin-bottom: 20px;
+        border: 2px solid #000;
+    }
+</style>
+
+<div class="form-card">
+    <h1 style="margin-bottom: 30px;">Thêm sản phẩm mới</h1>
+
+    <% if (error) { %>
+        <div class="error"><%= error %></div>
+    <% } %>
+
+    <form action="/products" method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="name">Tên sản phẩm: <span style="color: red;">*</span></label>
+            <input type="text" id="name" name="name" value="<%= formData.name || '' %>" required autofocus>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="price">Giá: <span style="color: red;">*</span></label>
+                <input type="number" id="price" name="price" value="<%= formData.price || '' %>" min="0" step="1000" required>
+            </div>
+
+            <div class="form-group">
+                <label for="quantity">Số lượng: <span style="color: red;">*</span></label>
+                <input type="number" id="quantity" name="quantity" value="<%= formData.quantity || '' %>" min="0" required>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="categoryId">Danh mục:</label>
+            <select id="categoryId" name="categoryId">
+                <option value="">-- Chọn danh mục --</option>
+                <% if (categories) { categories.forEach(cat => { %>
+                    <option value="<%= cat.id %>" <%= formData.categoryId === cat.id ? 'selected' : '' %>>
+                        <%= cat.name %>
+                    </option>
+                <% })} %>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="image">Hình ảnh:</label>
+            <input type="file" id="image" name="image" accept="image/*">
+            <small style="color: #666; display: block; margin-top: 5px;">Chấp nhận: JPG, PNG, GIF (tối đa 5MB)</small>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Thêm sản phẩm</button>
+            <a href="/products" class="btn" style="background: white; color: #000; border: 1px solid #000;">Hủy</a>
+        </div>
+    </form>
+</div>
+
+<%- include('../partials/footer') %>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= typeof title !== 'undefined' ? title : 'Product Management' %></title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: white;
+        }
+        .navbar {
+            background: #000;
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #000;
+        }
+        .navbar-brand {
+            font-size: 24px;
+            font-weight: bold;
+            text-decoration: none;
+            color: white;
+        }
+        .navbar-menu {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+        .navbar-menu a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 15px;
+        }
+        .navbar-menu a:hover {
+            text-decoration: underline;
+        }
+        .navbar-menu a.active {
+            text-decoration: underline;
+        }
+        .navbar-user {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .user-badge {
+            background: transparent;
+            padding: 5px 12px;
+            border: 1px solid white;
+            font-size: 14px;
+        }
+        .admin-badge {
+            background: white;
+            color: #000;
+            padding: 3px 8px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+        .btn {
+            padding: 10px 20px;
+            border: 1px solid #000;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+        }
+        .btn-primary {
+            background: #000;
+            color: white;
+        }
+        .btn-primary:hover {
+            background: #333;
+        }
+        .btn-danger {
+            background: #000;
+            color: white;
+        }
+        .btn-danger:hover {
+            background: #333;
+        }
+        .btn-success {
+            background: #000;
+            color: white;
+        }
+        .btn-warning {
+            background: #ffd43b;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="/" class="navbar-brand">Product Management</a>
+        <div class="navbar-menu">
+            <a href="/products" class="<%= typeof activeMenu !== 'undefined' && activeMenu === 'products' ? 'active' : '' %>">Sản phẩm</a>
+            <a href="/categories" class="<%= typeof activeMenu !== 'undefined' && activeMenu === 'categories' ? 'active' : '' %>">Danh mục</a>
+        </div>
+        <div class="navbar-user">
+            <% if (currentUser) { %>
+                <div class="user-badge">
+                    <%= currentUser.username %>
+                    <% if (currentUser.role === 'admin') { %>
+                        <span class="admin-badge">ADMIN</span>
+                    <% } %>
+                </div>
+                <a href="/auth/logout" class="btn btn-danger" style="padding: 6px 12px; font-size: 12px;">Đăng xuất</a>
+            <% } %>
+        </div>
+    </nav>
+    
+    <div class="container">

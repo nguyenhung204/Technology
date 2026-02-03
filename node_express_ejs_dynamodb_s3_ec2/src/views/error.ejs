@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lỗi - Product Management</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: white;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .error-container {
+            text-align: center;
+            padding: 60px 20px;
+        }
+        h1 {
+            font-size: 72px;
+            color: #000;
+            margin-bottom: 20px;
+        }
+        h2 {
+            color: #000;
+            margin-bottom: 15px;
+        }
+        p {
+            color: #666;
+            margin-bottom: 30px;
+        }
+        .btn {
+            padding: 10px 20px;
+            border: 1px solid #000;
+            background: #000;
+            color: white;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+        }
+        .btn:hover {
+            background: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="error-container">
+        <h1><%= error.status || 500 %></h1>
+        <h2><%= message %></h2>
+        <p>
+            <%= error.status === 404 ? 'Trang bạn tìm kiếm không tồn tại.' : 'Đã xảy ra lỗi, vui lòng thử lại sau.' %>
+        </p>
+        <a href="/" class="btn">Về trang chủ</a>
+    </div>
+</body>
+</html>
